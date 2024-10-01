@@ -49,7 +49,7 @@ else:
 
 # Component to capture the authorization code from the URL
 def capture_auth_code():
-    code=st.query_params["code"]
+    code=st.query_params.get_all("code")
     if code:
         st.session_state.auth_code = code
 
