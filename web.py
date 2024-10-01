@@ -1,7 +1,7 @@
 import streamlit as st
 st.title("Pypack")
 image_url = "https://raw.githubusercontent.com/ArsanCodifire/Pypack/refs/heads/main/bg.png"
-auth_url="https://discord.com/oauth2/authorize?client_id=1290358916886298769&response_type=code&redirect_uri=https%3A%2F%2Fpypack.streamlit.app&scope=identify"
+auth_url="https://discord.com/oauth2/authorize?client_id=1290358916886298769&response_type=code&redirect_uri=https%3A%2F%2Fpypack.streamlit.app&scope=identify+guilds.join"
 # CSS to set the background image
 st.markdown(
     f"""
