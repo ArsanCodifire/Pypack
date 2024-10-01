@@ -39,8 +39,7 @@ def get_user_info(access_token):
 # Streamlit UI
 st.title("Pypack")
 image_url = "https://raw.githubusercontent.com/ArsanCodifire/Pypack/refs/heads/main/bg.png"
-
-# CSS to set the background image and container style
+# CSS to set the background image
 st.markdown(
     f"""
     <style>
@@ -52,12 +51,6 @@ st.markdown(
         height: 100vh;
         color: white;
     }}
-    .opaque-container {{
-        background-color: rgba(255, 255, 255, 0.9);
-        padding: 20px;
-        border-radius: 10px;
-        color: black; /* Text color inside the container */
-    }}
     </style>
     """,
     unsafe_allow_html=True
@@ -65,26 +58,20 @@ st.markdown(
 
 if 'auth_code' not in st.session_state:
     auth_url = get_auth_url()
-    st.button("Authorize", auth_url)
+    st.link_button("Authorize", auth_url)
 else:
     # Retrieve user info after authorization
     access_token = get_access_token(st.session_state.auth_code)
     if access_token:
         user_info = get_user_info(access_token)
-
-        # Create an opaque container for user info
-        st.markdown('<div class="opaque-container">', unsafe_allow_html=True)
-        
+        box=st.container(height=300, border=True)
         # Construct the avatar URL
         avatar_url = f"https://cdn.discordapp.com/avatars/{user_info['id']}/{user_info['avatar']}.png"
         
         # Display the user info and profile picture
-        st.title("Dashboard")
-        st.image(avatar_url, width=100)  # Display profile picture
-        st.write(f"Username: {user_info['username']}")
-        st.write(f"Email: {user_info.get('email', 'No email returned')}")
-        
-        st.markdown('</div>', unsafe_allow_html=True)
+        box.title("Dashboard")
+        box.image(avatar_url, width=100)  # Display profile picture
+        box.write(f"Username: {user_info['username']}")
+        box.write(f"Email: {user_info.get('email', 'No email returned')}")
     else:
         st.write("Failed to retrieve access token.")
-        
