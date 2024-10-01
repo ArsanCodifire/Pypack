@@ -65,7 +65,7 @@ st.markdown(
 
 if 'auth_code' not in st.session_state:
     auth_url = get_auth_url()
-    st.button("Authorize", url=auth_url)
+    st.button("Authorize", auth_url)
 else:
     # Retrieve user info after authorization
     access_token = get_access_token(st.session_state.auth_code)
