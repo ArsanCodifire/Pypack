@@ -12,6 +12,29 @@ USER_URL = 'https://discord.com/api/users/@me'
 # Function to get the authorization URL
 def get_auth_url():
     return f"https://discord.com/oauth2/authorize?client_id=1290358916886298769&response_type=code&redirect_uri=https%3A%2F%2Fpypack.streamlit.app&scope=identify+guilds.join"
+def capture_auth_code():
+    code=st.query_params.get_all("code")
+    if code:
+        st.session_state.auth_code = code
+
+# Call the function to capture the code when the app loads
+capture_auth_code()
+
+def get_access_token(auth_code):
+    response = requests.post(TOKEN_URL, data={
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+        'grant_type': 'authorization_code',
+        'code': auth_code,
+        'redirect_uri': REDIRECT_URI,
+        'scope': 'identify email'
+    })
+    return response.json().get('access_token')
+
+def get_user_info(access_token):
+    headers = {'Authorization': f'Bearer {access_token}'}
+    response = requests.get(USER_URL, headers=headers)
+    return response.json()
 
 # Streamlit UI
 st.title("Pypack")
@@ -46,29 +69,3 @@ else:
         st.write(f"Email: {user_info.get('email', 'No email returned')}")
     else:
         st.write("Failed to retrieve access token.")
-
-# Component to capture the authorization code from the URL
-def capture_auth_code():
-    code=st.query_params.get_all("code")
-    if code:
-        st.session_state.auth_code = code
-
-# Call the function to capture the code when the app loads
-capture_auth_code()
-
-def get_access_token(auth_code):
-    response = requests.post(TOKEN_URL, data={
-        'client_id': CLIENT_ID,
-        'client_secret': CLIENT_SECRET,
-        'grant_type': 'authorization_code',
-        'code': auth_code,
-        'redirect_uri': REDIRECT_URI,
-        'scope': 'identify email'
-    })
-    return response.json().get('access_token')
-
-def get_user_info(access_token):
-    headers = {'Authorization': f'Bearer {access_token}'}
-    response = requests.get(USER_URL, headers=headers)
-    return response.json()
-    
