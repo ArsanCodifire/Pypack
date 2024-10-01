@@ -1,7 +1,7 @@
 import streamlit as st
 import webbrowser
 st.title("Pypack")
-image_url = ""
+image_url = "https://raw.githubusercontent.com/ArsanCodifire/Pypack/refs/heads/main/bg.png"
 
 # CSS to set the background image
 st.markdown(
