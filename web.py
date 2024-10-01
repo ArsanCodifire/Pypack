@@ -1,6 +1,5 @@
 import streamlit as st
 import requests
-import streamlit.components.v1 as components
 import os
 
 # Set up your Discord app credentials
@@ -50,7 +49,7 @@ else:
 
 # Component to capture the authorization code from the URL
 def capture_auth_code():
-    code = st.experimental_get_query_params().get("code", [None])[0]
+    code=st.query_params["code"]
     if code:
         st.session_state.auth_code = code
 
