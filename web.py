@@ -14,6 +14,8 @@ st.markdown(
         background-position: center; /* Center the image */
         height: 100vh; /* Full height */
         color: white; /* Adjust text color for better visibility */
+        transform: rotate(10deg); /* Rotate the background image */
+        overflow: hidden; /* Prevent overflow due to rotation */
     }}
 
     /* Additional CSS for mobile responsiveness */
@@ -21,6 +23,7 @@ st.markdown(
         .stApp {{
             background-size: contain; /* Make the image fit within the viewport */
             height: auto; /* Allow height to adjust */
+            transform: rotate(5deg); /* Reduce rotation for smaller screens */
         }}
     }}
     </style>
