@@ -9,10 +9,19 @@ st.markdown(
     <style>
     .stApp {{
         background-image: url('{image_url}');
-        background-size: cover;
-        background-position: center;
-        height: 100vh;
-        color: white;  /* Adjust text color for better visibility */
+        background-size: cover; /* Ensure the image covers the entire area */
+        background-repeat: no-repeat; /* Prevent repeating the image */
+        background-position: center; /* Center the image */
+        height: 100vh; /* Full height */
+        color: white; /* Adjust text color for better visibility */
+    }}
+
+    /* Additional CSS for mobile responsiveness */
+    @media only screen and (max-width: 600px) {{
+        .stApp {{
+            background-size: contain; /* Make the image fit within the viewport */
+            height: auto; /* Allow height to adjust */
+        }}
     }}
     </style>
     """,
