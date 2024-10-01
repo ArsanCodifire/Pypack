@@ -37,7 +37,7 @@ def get_user_info(access_token):
     return response.json()
 
 # Streamlit UI
-st.title("Pypack")
+st.title("PyPack")
 image_url = "https://raw.githubusercontent.com/ArsanCodifire/Pypack/refs/heads/main/bg.png"
 # CSS to set the background image
 st.markdown(
