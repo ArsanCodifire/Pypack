@@ -18,4 +18,4 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-clk=st.link_button("Authorise.", f"{auth_url}")
+clk=st.link_button("Authorise.", auth_url)
