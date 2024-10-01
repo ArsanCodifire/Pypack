@@ -12,7 +12,7 @@ USER_URL = 'https://discord.com/api/users/@me'
 
 # Function to get the authorization URL
 def get_auth_url():
-    return f"https://discord.com/oauth2/authorize?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&response_type=code&scope=identify email"
+    return f"https://discord.com/oauth2/authorize?client_id=1290358916886298769&response_type=code&redirect_uri=https%3A%2F%2Fpypack.streamlit.app&scope=identify+guilds.join"
 
 # Streamlit UI
 st.title("Pypack")
