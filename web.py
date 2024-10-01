@@ -64,15 +64,15 @@ else:
     access_token = get_access_token(st.session_state.auth_code)
     if access_token:
         user_info = get_user_info(access_token)
-        
+        box=st.container(height=300, border=True)
         # Construct the avatar URL
         avatar_url = f"https://cdn.discordapp.com/avatars/{user_info['id']}/{user_info['avatar']}.png"
         
         # Display the user info and profile picture
-        st.title("Dashboard")
-        st.image(avatar_url, width=100)  # Display profile picture
-        st.write(f"Username: {user_info['username']}")
-        st.write(f"Email: {user_info.get('email', 'No email returned')}")
+        box.title("Dashboard")
+        box.image(avatar_url, width=100)  # Display profile picture
+        box.write(f"Username: {user_info['username']}")
+        box.write(f"Email: {user_info.get('email', 'No email returned')}")
     else:
         st.write("Failed to retrieve access token.")
         
