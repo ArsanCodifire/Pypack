@@ -15,14 +15,6 @@ st.markdown(
         height: 100vh; /* Full height */
         color: white; /* Adjust text color for better visibility */
     }}
-
-    /* Additional CSS for mobile responsiveness */
-    @media only screen and (max-width: 600px) {{
-        .stApp {{
-            background-size: contain; /* Make the image fit within the viewport */
-            height: auto; /* Allow height to adjust */
-        }}
-    }}
     </style>
     """,
     unsafe_allow_html=True
