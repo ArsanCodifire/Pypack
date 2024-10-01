@@ -1,7 +1,7 @@
 import streamlit as st
 import webbrowser
 st.title("Pypack")
-image_url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHBKD9aKNPZI-BLkZUoHCRLGSsBXXHPRgfU1JpLpgyA99YHjOdi3cGG2Wk&s=10"
+image_url = ""
 
 # CSS to set the background image
 st.markdown(
