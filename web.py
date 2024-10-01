@@ -4,8 +4,8 @@ import streamlit.components.v1 as components
 import os
 
 # Set up your Discord app credentials
-CLIENT_ID = 'YOUR_CLIENT_ID'
-CLIENT_SECRET = 'YOUR_CLIENT_SECRET'
+CLIENT_ID = st.secrets["id"]
+CLIENT_SECRET = st.secrets["secret"]
 REDIRECT_URI = 'https://pypack.streamlit.app'  # Your redirect URI
 TOKEN_URL = 'https://discord.com/api/oauth2/token'
 USER_URL = 'https://discord.com/api/users/@me'
