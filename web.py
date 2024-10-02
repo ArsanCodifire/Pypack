@@ -9,6 +9,10 @@ REDIRECT_URI = 'https://pypack.streamlit.app'  # Your redirect URI
 TOKEN_URL = 'https://discord.com/api/oauth2/token'
 USER_URL = 'https://discord.com/api/users/@me'
 
+st.set_page_config(
+    page_title="Pypack",
+    page_icon="🤖"
+)
 # Function to get the authorization URL
 def get_auth_url():
     return f"https://discord.com/oauth2/authorize?client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URI}&scope=identify email"
