@@ -112,7 +112,7 @@ else:
         user_info = get_user_info(access_token)
 
         # Create a container for displaying user info
-        box = st.container()
+        box = st.container(height=300,border=True)
         avatar_url = f"https://cdn.discordapp.com/avatars/{user_info['id']}/{user_info['avatar']}.png"
         
         # Display the user info and profile picture
