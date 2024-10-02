@@ -72,6 +72,10 @@ else:
         box.title("Dashboard")
         box.image(avatar_url, width=100)  # Display profile picture
         box.write(f"Username: {user_info['username']}")
-        box.write(f"Email: {user_info.get('email', 'No email returned')}")
+        on=st.toggle("Censor Email", value=True)
+        if on:
+            box.write(f"Email: {user_info.get('email', 'No email returned')}")
+        else:
+            box.write("Email Hidden")
     else:
         st.write("Failed to retrieve access token.")
