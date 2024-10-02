@@ -15,8 +15,7 @@ def get_auth_url():
 
 # Function to capture the authorization code
 def capture_auth_code():
-    query_params = st.experimental_get_query_params()
-    code = query_params.get("code")
+    code=st.query_params.get_all("code")
     if code:
         st.session_state.auth_code = code[0]  # Save the first code
 
