@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import time
 
 # Set up your Discord app credentials
 CLIENT_ID = st.secrets["id"]
@@ -12,25 +13,58 @@ USER_URL = 'https://discord.com/api/users/@me'
 def get_auth_url():
     return f"https://discord.com/oauth2/authorize?client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URI}&scope=identify email"
 
+# Function to capture the authorization code
 def capture_auth_code():
-    code = st.query_params.get_all("code")
+    query_params = st.experimental_get_query_params()
+    code = query_params.get("code")
     if code:
-        st.session_state.auth_code = code[0]  # Get the first code
+        st.session_state.auth_code = code[0]  # Save the first code
 
 # Call the function to capture the code when the app loads
 capture_auth_code()
 
-def get_access_token(auth_code):
-    response = requests.post(TOKEN_URL, data={
+# Function to determine if the token has expired
+def token_has_expired():
+    if 'expires_at' in st.session_state:
+        return time.time() > st.session_state.expires_at
+    return True
+
+# Function to get access and refresh tokens
+def get_access_token(auth_code=None, refresh_token=None):
+    data = {
         'client_id': CLIENT_ID,
         'client_secret': CLIENT_SECRET,
-        'grant_type': 'authorization_code',
-        'code': auth_code,
         'redirect_uri': REDIRECT_URI,
-        'scope': 'identify email'
-    })
-    return response.json().get('access_token')
+        'scope': 'identify email',
+    }
 
+    if auth_code:
+        # If we have an auth code, we do the initial token exchange
+        data.update({
+            'grant_type': 'authorization_code',
+            'code': auth_code,
+        })
+    elif refresh_token:
+        # If we have a refresh token, we refresh the access token
+        data.update({
+            'grant_type': 'refresh_token',
+            'refresh_token': refresh_token,
+        })
+
+    response = requests.post(TOKEN_URL, data=data)
+    token_data = response.json()
+
+    # Save new access and refresh tokens in session state
+    st.session_state.access_token = token_data.get('access_token')
+    st.session_state.refresh_token = token_data.get('refresh_token')
+    st.session_state.expires_in = token_data.get('expires_in')
+
+    # Calculate and store the exact expiry time
+    st.session_state.expires_at = time.time() + token_data.get('expires_in')
+
+    return st.session_state.access_token
+
+# Function to get user info
 def get_user_info(access_token):
     headers = {'Authorization': f'Bearer {access_token}'}
     response = requests.get(USER_URL, headers=headers)
@@ -56,24 +90,36 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# If there is no auth code, show the authorization button
 if 'auth_code' not in st.session_state:
     auth_url = get_auth_url()
     st.link_button("Authorize", auth_url)
 else:
-    # Retrieve user info after authorization
-    access_token = get_access_token(st.session_state.auth_code)
+    # Check if the access token is available and still valid
+    if 'access_token' not in st.session_state or token_has_expired():
+        if 'refresh_token' in st.session_state:
+            access_token = get_access_token(refresh_token=st.session_state.refresh_token)
+        else:
+            access_token = get_access_token(auth_code=st.session_state.auth_code)
+    else:
+        access_token = st.session_state.access_token
+
     if access_token:
+        # Retrieve user info after authorization
         user_info = get_user_info(access_token)
-        box=st.container(height=300, border=True)
-        # Construct the avatar URL
+
+        # Create a container for displaying user info
+        box = st.container()
         avatar_url = f"https://cdn.discordapp.com/avatars/{user_info['id']}/{user_info['avatar']}.png"
         
         # Display the user info and profile picture
         box.title("Dashboard")
         box.image(avatar_url, width=100)  # Display profile picture
         box.write(f"Username: {user_info['username']}")
-        on=st.toggle("Censor Email", value=True)
-        if on:
+        
+        # Toggle for showing/hiding email
+        censor_email = st.toggle("Censor Email", value=True)
+        if censor_email:
             box.write("Email Hidden")
         else:
             box.write(f"Email: {user_info.get('email', 'No email returned')}")
