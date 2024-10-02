@@ -74,8 +74,8 @@ else:
         box.write(f"Username: {user_info['username']}")
         on=st.toggle("Censor Email", value=True)
         if on:
-            box.write(f"Email: {user_info.get('email', 'No email returned')}")
-        else:
             box.write("Email Hidden")
+        else:
+            box.write(f"Email: {user_info.get('email', 'No email returned')}")
     else:
         st.write("Failed to retrieve access token.")
