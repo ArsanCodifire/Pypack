@@ -135,7 +135,13 @@ else:
             minimap=False,
             theme="vs-dark",
         )
+        st.title("Coding")
         if st.button("Get content"):
             st.markdown(f"```python{code_box}")
+        form=st.form("form", border=True)
+        form.title("Send to me")
+        form.text_input("Title")
+        form.text_area("Content/Body")
+        st.form_submit_button("Submit")
     else:
         st.write("Failed to retrieve access token.")
