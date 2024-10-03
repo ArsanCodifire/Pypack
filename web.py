@@ -136,6 +136,6 @@ else:
             theme="vs-dark",
         )
         if st.button("Get content"):
-            st.markdown(f"```py{code_box}")
+            st.markdown(f"```python{code_box}")
     else:
         st.write("Failed to retrieve access token.")
