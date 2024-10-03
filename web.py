@@ -135,5 +135,6 @@ else:
             minimap=False,
             theme="vs-dark",
         )
+        st.markdown(f"```py {code_box}```")
     else:
         st.write("Failed to retrieve access token.")
