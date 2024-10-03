@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_monaco import st_monaco
 import requests
 import time
 
@@ -126,5 +127,13 @@ else:
             box.write("Email Hidden")
         else:
             box.write(f"Email: {user_info.get('email', 'No email returned')}")
+        code_box=st_monaco(
+            value="",
+            height="200px",
+            language="python",
+            lineNumbers=True,
+            minimap=False,
+            theme="vs-dark",
+        )
     else:
         st.write("Failed to retrieve access token.")
