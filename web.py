@@ -142,6 +142,6 @@ else:
         form.title("Send to me")
         form.text_input("Title")
         form.text_area("Content/Body")
-        st.form_submit_button("Submit")
+        st.form_submit_button()
     else:
         st.write("Failed to retrieve access token.")
